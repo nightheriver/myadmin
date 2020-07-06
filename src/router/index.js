@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-const login = ()=> import('views/login') 
+import Home from '../views/home/Home.vue'
+const login = ()=> import('views/login/login') 
+const Roles = ()=> import('views/roles/Roles') 
+const Users = ()=> import('views/users/Users') 
 Vue.use(VueRouter)
 
   const routes = [
@@ -15,18 +17,37 @@ Vue.use(VueRouter)
       name: 'login',
       component: login
     },
+    // {
+    //   path: '/roles',
+    //   name: 'Roles',
+    //   component: Roles
+    // },
+    // {
+    //   path: '/users',
+    //   name: 'Users',
+    //   component: Users
+    // },
   {
     path: '/home',
     name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: Home,
+    beforeLeave (to, from, next) {
+      // ...
+      console.log(from);
+      next()
+    },
+    children:[
+      {
+        path: '/roles',
+        name: 'Roles',
+        component: Roles
+      },
+      {
+        path: '/users',
+        name: 'Users',
+        component: Users
+      },
+    ]
   },
 ]
 
@@ -37,8 +58,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to);
-  console.log(from);
   const token = window.sessionStorage.getItem('token')
   if(to.path !== '/login'){
     if(!token){

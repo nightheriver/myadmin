@@ -29,8 +29,8 @@ export default {
     data() {
       return {
         loginmsg: {
-          username: '',
-          password:''
+          username: 'admin',
+          password:'123456'
         },
         rules: {
           name: [
@@ -116,5 +116,7 @@ export default {
         
     }
 }
-   
+   .el-form-item__content{
+     margin-left: 40px !important;
+   }
 </style>

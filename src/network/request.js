@@ -5,6 +5,7 @@ export const requset1 = (config)=>{
         timeout:6000
     })
     newaxios.interceptors.request.use(config =>{
+        config.headers.Authorization = window.sessionStorage.getItem('token')
         return config
     })
     newaxios.interceptors.response.use(response =>{
