@@ -16,9 +16,11 @@
                     :collapse="isCollapse"
                     :collapse-transition="false"
                     router
-              
+                  background-color='#333744'
+                  text-color	='#ffffff'
                     >
-                    <el-button class="bts" @click="toggles">|||</el-button>
+                    <el-button class="bts" @click="toggles"  background-color='#333744'
+                  text-color	='#ffffff'>|||</el-button>
                     <!-- <el-submenu index="1">
                       <template slot="title">
                         <i class="el-icon-location"></i>
@@ -28,7 +30,7 @@
                     </el-submenu> -->
                     <el-submenu v-for="item in menulist"  :index="item.path" :key="item.id+''">
                        <template slot="title">
-                        <i class="el-icon-location"></i>
+                        <i :class="iconarr[item.id]"></i>
                         <span>{{item.authName}}</span>
                       </template>
                       <el-menu-item v-for="citem in item.children" :key="citem.id" :index="'/'+citem.path">{{citem.authName}}</el-menu-item>
@@ -67,6 +69,9 @@ export default {
     return {
       isCollapse:false,
       menulist:[],
+      iconarr:{125:'el-icon-user-solid',103:'el-icon-menu',145:'el-icon-data-line',101:'el-icon-shopping-bag-2',102:'el-icon-s-order'},
+
+    
     }
   },
   computed: {
@@ -110,7 +115,8 @@ export default {
       const data = await getMenus()
       //  console.log(data);
        if(data.meta.status!==200){
-
+         console.log(data.data);
+         
          this.$message.error('错了哦，这是一条错误消息');
          return 
        }
@@ -134,12 +140,14 @@ height: 100%;
  .el-header{
    display: flex;
    justify-content: space-between;
-    background-color: #B3C0D1;
-    color: #333;
+    background-color: #373d41;
+    color: #ffffff;
     text-align: center;
     line-height: 60px;
     align-items: center;
     .logos{
+      display: flex;
+     align-items: center;
       .imgs{
         width: 60px;
         height: 60px;
@@ -149,21 +157,23 @@ height: 100%;
   
     }
     .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
     text-align: center;
     height: 100%;
+       background-color:#333744 ;
     .bts{
       width: 100%;
+      background-color:#333744 ;
+        color: white;
+        border: 1px solid rebeccapurple;
     }
   }
   
   .el-main {
     background-color: #E9EEF3;
-    color: #333;
     text-align: center;
         height: 100%;
   }
 }
-   
+
+
 </style>
