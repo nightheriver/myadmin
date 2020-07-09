@@ -3,6 +3,9 @@
   <dialogs ref="dia" :usermsgs='usermsgs' @msgs='reset'>
 
   </dialogs>
+  <dialogsallot ref="allot" :usermsgs='usermsgs'  @msgss='reset' >
+
+  </dialogsallot>
    <div class="bmb">
         <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -30,6 +33,10 @@
       border
       :data="userdata"
       style="width: 100%">
+        <el-table-column
+      type="index"
+       >
+      </el-table-column>
       <el-table-column
         prop="username"
         label="姓名"
@@ -73,21 +80,35 @@
             <el-col :span="8">
                  <el-tooltip class="item" effect="dark" content="编辑" placement="top" >
                    
-                      <el-button type="primary" icon="el-icon-edit" @click="editUser(scope.row)"></el-button>  
+                      <el-button type="primary" icon="el-icon-edit" size="mini" @click="editUser(scope.row)"></el-button>  
                     
                 </el-tooltip>
-               
             </el-col>
-           
+ 
             <el-col :span="8">
-                <el-tooltip class="item" effect="dark" content=" 删除" placement="top">
-                    <el-button type="danger" icon="el-icon-delete" @click="delUser(scope.row)" ></el-button>
+            
+
+                <el-tooltip class="item" effect="dark" content=" 删除" placement="top" >
+                  <el-popconfirm
+                  @onConfirm ="delUser(scope.row)"
+  confirmButtonText='好的'
+  cancelButtonText='不用了'
+  icon="el-icon-info"
+  iconColor="red"
+  title="这是一段内容确定删除吗？"
+>
+  <!-- @click="delUser(scope.row)"  -->
+                      <el-button type="danger" icon="el-icon-delete"
+                     
+                       slot="reference"  size="mini"></el-button>
+                                </el-popconfirm>   
                 </el-tooltip>
-                
+      
             </el-col>
+             
              <el-col :span="8">
                   <el-tooltip class="item" effect="dark" content="分配角色" placement="top">
-                       <el-button type="warning" icon="el-icon-setting"></el-button>
+                       <el-button size="mini" type="warning" icon="el-icon-setting" @click="allotRoles(scope.row)" ></el-button>
                 </el-tooltip>
                 
             </el-col>
@@ -116,14 +137,19 @@
 
 <script>
 // @ is an alias to /src
-import dialogs from 'components/dialoguser/dialogs'
+import dialogs from './dialoguser/dialogs'
+                                        
+import dialogsallot from './dialoguser/dialogsallot'
 import {getUser} from 'network/api'
 import {updateStatus} from 'network/api'
-import {deleUser} from 'network/api'
+import {deleUser,allotRoles} from 'network/api'
+
 export default {
   name: 'Users',
   components: {
-    dialogs
+    dialogs,
+    dialogsallot
+    
   },
   data() {
     return {
@@ -157,10 +183,17 @@ export default {
       
       this.usermsgs=row
     },
+    //添加角色
     addUser(){
       console.log(this.$refs.dia.dialogVisible = true);
     }
     ,
+    //分配用户角色
+    allotRoles(row){
+      this.usermsgs=row
+        this.$refs.allot.dialogVisible = true
+    },
+    //获取角色列表
     async getUsers(){
       const data = await getUser({
       pagenum:this.pagenum,
@@ -179,11 +212,12 @@ export default {
     }
     this.total = total
    
-     console.log(data); 
      return data
 
     },
+    
     input3(){},
+    //翻页
      handleSizeChange(val) {
         // console.log(`每页 ${val} 条`);
         this.pagesize = +val
@@ -191,10 +225,11 @@ export default {
 
       },
       handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
+        console.log(`当前页: ${val}`);
         this.pagenum =+val
         this.getUsers()
       },
+      //更新状态
      async dos(st,id){
         console.log(st,id);
        const data = await updateStatus(st,id)
@@ -217,7 +252,7 @@ export default {
   }
 }
 </script>
-<style lang="less" >
+<style lang="less"  scoped>
 .bmb{
     margin-bottom: 12px;
 }

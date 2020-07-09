@@ -20,11 +20,15 @@
                  <el-form-item  label="手机号" prop="mobile"  >
                     <el-input v-model="usermsg.mobile" ></el-input>
                 </el-form-item>
-            </el-form>
-  <span slot="footer" class="dialog-footer">
+                    <el-form-item   >
+ 
     <el-button @click="qx">取 消</el-button>
     <el-button type="primary" @click="qd">确 定</el-button>
-  </span>
+
+
+    </el-form-item>
+            </el-form>
+
 </el-dialog>
   </div>
 </template>
@@ -52,6 +56,7 @@ export default {
           mobile:'',
         },
         id:'',
+        isf:true,
         rules: {
           username: [
             { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -80,14 +85,41 @@ export default {
             this.$refs['ruleForm'].resetFields();
         },
         qx(){
-            
-            this.$emit('msgs')
+             this.$refs['ruleForm'].validate((valid) => {
+                        if (valid) {
+                          alert('submit!');
+                        } else {
+                          console.log('error submit!!');
+                          return false;
+                        }
+                 });
+           this.$emit('msgs')
             this.$refs['ruleForm'].resetFields();
            this.dialogVisible = false 
+      
+        
            
         },
         async qd(){
+        this.$refs['ruleForm'].validate((valid) => {
+
+       if (valid) {
+           
+         this.isf = true
+                       } else {
+            console.log('error submit!!')
+            this.isf = false
+            return false;
+          }
+                  
+                })
+   if(this.isf){
+     
+  
+
+
             if(!this.id){
+    
                const data = await adduser(this.usermsg) 
             if(data.meta.status !== 201){
              this.$message.error(data.meta.msg)
@@ -111,9 +143,12 @@ export default {
              this.$emit('msgs')
             this.usermsg = ''
              this.$refs['ruleForm'].resetFields();
-           this.dialogVisible = false 
+           this.dialogVisible = false ;
            
-        },
+        
+         }
+    
+                },
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {

@@ -4,6 +4,9 @@ import Home from '../views/home/Home.vue'
 const login = ()=> import('views/login/login') 
 const Roles = ()=> import('views/roles/Roles') 
 const Users = ()=> import('views/users/Users') 
+const rightslist = ()=> import('views/roles/rightslist') 
+const categories = ()=> import('views/categories/categories') 
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -38,6 +41,11 @@ Vue.use(VueRouter)
     },
     children:[
       {
+        path: '/rights',
+        name: 'rightslist',
+        component: rightslist
+      },
+      {
         path: '/roles',
         name: 'Roles',
         component: Roles
@@ -46,6 +54,11 @@ Vue.use(VueRouter)
         path: '/users',
         name: 'Users',
         component: Users
+      },
+      {
+        path: '/categories',
+        name: 'categories',
+        component: categories
       },
     ]
   },
