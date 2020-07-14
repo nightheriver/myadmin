@@ -102,20 +102,15 @@ export default {
           const data = await addcategories(cat_pid,cat_name,cat_level)
           console.log(data);
           
-            // | cat_pid   | 分类父 ID | 不能为空，如果要添加1级分类，则父分类Id应该设置为  `0`      |
-// | cat_name  | 分类名称  | 不能为空                                                    |
-// | cat_level | 分类层级  | 不能为空，`0`表示一级分类；`1`表示二级分类；`2`表示三级分类 |
-        //      const {cat_name,id} = this.editdatas
-        //    const data = await editcategories(id,cat_name)
-        //    console.log(data);
+
            
-        //     if(data.meta.status !== 200){
-        //         this.$message.error(data.meta.msg)
-        //         return
-        //     }
-        //     this.$message.success(data.meta.msg)
-        //     this.dialogVisible = false 
-        //     this.$emit('update') 
+            if(data.meta.status !== 201){
+                this.$message.error(data.meta.msg)
+                return
+            }
+            this.$message.success(data.meta.msg)
+            this.dialogVisible = false 
+            this.$emit('update') 
         },
         closed(){
             // this.adddatas =[]
@@ -141,15 +136,14 @@ export default {
     },
     watch: {
         adddata(newv){
-            newv.forEach(item => {
+            let arrs = JSON.parse(JSON.stringify(newv))
+            arrs.forEach(item => {
                 item.children.forEach(itemc => {
                     itemc.children=null
                 });
             });
-            console.log(newv);
             
-            this.adddatas = newv
-            console.log(this.adddatas);
+            this.adddatas = arrs
             
         }
     },

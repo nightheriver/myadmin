@@ -83,7 +83,7 @@ export default {
       });
       });
 
-      console.log(arr);
+      // console.log(arr);
       const datas =  arr.find((item)=>{
         return  this.$route.path.indexOf(item)>=0
       })
@@ -130,12 +130,13 @@ export default {
      this.getMenus1()
   }
 }
-</script>
-<style lang="less">
+</script> 
+<style lang="less" >
 .home{
 height: 100%;
   .el-container{
-    height: 100%;
+ min-height: 100%;
+    // display: flex;
   }
  .el-header{
    display: flex;
@@ -158,7 +159,7 @@ height: 100%;
     }
     .el-aside {
     text-align: center;
-    height: 100%;
+ 
        background-color:#333744 ;
     .bts{
       width: 100%;
@@ -167,11 +168,9 @@ height: 100%;
         border: 1px solid rebeccapurple;
     }
   }
-  
   .el-main {
     background-color: #E9EEF3;
-    text-align: center;
-        height: 100%;
+   
   }
 }
 

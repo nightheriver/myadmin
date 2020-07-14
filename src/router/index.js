@@ -6,7 +6,12 @@ const Roles = ()=> import('views/roles/Roles')
 const Users = ()=> import('views/users/Users') 
 const rightslist = ()=> import('views/roles/rightslist') 
 const categories = ()=> import('views/categories/categories') 
+const params = ()=> import('views/params/params') 
+const goods = ()=> import('views/goods/goods') 
+const addoreditgoods = ()=> import('views/goods/goodsc/addoreditgoods') 
+const orders = ()=> import('views/orders/orders') 
 
+const reports = ()=> import('views/reports/reports') 
 Vue.use(VueRouter)
 
   const routes = [
@@ -59,6 +64,33 @@ Vue.use(VueRouter)
         path: '/categories',
         name: 'categories',
         component: categories
+      },
+      {
+        path: '/params',
+        name: 'params',
+        component: params
+      },
+      {
+        path: '/goods',
+        name: 'goods',
+        component: goods,
+    
+      },
+      {
+        path: '/goods/addoreditgoods',
+        name: 'addoreditgoods',
+        component: addoreditgoods,
+      },
+      {
+        path: '/orders',
+        name: 'orders',
+        component: orders,
+      },
+      {
+        path: '/reports',
+        name: 'reports',
+        component: reports,
+    
       },
     ]
   },

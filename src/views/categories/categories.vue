@@ -38,15 +38,22 @@
     <i class="el-icon-success " v-else style="color:lightgreen"></i>
       </template>
       <template slot="cat_level" scope="scope">
-        {{ scope.row.cat_level }}
         <el-tag v-if="scope.row.cat_level === 0" >一级</el-tag>
         <el-tag type="success" v-else-if="scope.row.cat_level === 1">二级</el-tag>
         <el-tag type="warning" v-else>三级</el-tag>
       </template>
        <template slot="cat_id" scope="scope">
         
+
+
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="editcats(scope.row.cat_id,scope.row.cat_name)">编辑</el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deletcat(scope.row.cat_id)">删除</el-button>
+          <el-popconfirm
+  title="这是一段内容确定删除吗？"
+  @onConfirm="deletcat(scope.row.cat_id)"
+          >
+                  <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" >删除</el-button>
+          </el-popconfirm>
+         
       </template>
      
        <!-- :columns="columns"
@@ -139,15 +146,18 @@ export default {
            this.editdata ={id,cat_name}
           this.$refs.edit.dialogVisible = true
         },
-        deletcat(id){
-            // deletecategories()
+        async deletcat(id){
+           const data = await deletecategories(id)
+            console.log(data);
+            this.getfenlei();
+            
         },
         //获取分类数据
        async getfenlei(){
             const pagenum = this.pagenum;
             const pagesize = this.pagesize
            const data = await getcategories(pagenum,pagesize)
-           console.log(data.data);
+          //  console.log(data.data);
              this.adddata = this.cdata = data.data.result
            this.total = data.data.total
         },
